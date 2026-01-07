@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+#if DEBUG
 using Lab6.Scenes.Dev;
+#endif
 using Lab6.Scenes.Game;
 using Lab6.UI;
 using Microsoft.Xna.Framework;
@@ -24,34 +26,39 @@ public class MenuScene : StarshipScene
             Outline = Color.Gold,
             Callback = (btn) => Reactor._instance.SetActive(new GameScene())
         },
-
         new()
         {
-            Name = "Test",
-            Outline = Color.White,
-            Callback = _ => Reactor._instance.SetActive(new GeneralTestScene())
+            Name = "Controls",
+            Callback = _ => MenuWrapper.Instance.SetActive(new ControlsList())
         },
+        #if DEBUG
+            new()
+            {
+                Name = "Test",
+                Outline = Color.White,
+                Callback = _ => Reactor._instance.SetActive(new GeneralTestScene())
+            },
 
-        new()
-        {
-            Name = "Collider Test",
-            Outline = Color.White,
-            Callback = _ => Reactor._instance.SetActive(new ColliderTestScene())
-        },
+            new()
+            {
+                Name = "Collider Test",
+                Outline = Color.White,
+                Callback = _ => Reactor._instance.SetActive(new ColliderTestScene())
+            },
 
-        new()
-        {
-            Name = "Polygon editor",
-            Outline = Color.White,
-            Callback = _ => Reactor._instance.SetActive(new PolygonEditorScene())
-        },
+            new()
+            {
+                Name = "Polygon editor",
+                Outline = Color.White,
+                Callback = _ => Reactor._instance.SetActive(new PolygonEditorScene())
+            },
 
-        new()
-        {
-            Name = "Error Test",
-            Callback = _ => throw new EntryPointNotFoundException("Example error")
-        },
-
+            new()
+            {
+                Name = "Error Test",
+                Callback = _ => throw new EntryPointNotFoundException("Example error")
+            },
+        #endif
         new()
         {
             Name = "Options",
@@ -128,7 +135,7 @@ public class MenuScene : StarshipScene
     {
         Rectangle buttonRect = new Rectangle(buttonPos.ToPoint(), (GetButtonDims(button) + (Vector2.One * 8 + Vector2.UnitX * 4)).ToPoint());
         Point pos = Reactor._instance.Camera.ScreenToWorld(Mouse.GetState().Position.ToVector2()).ToPoint();
-        return buttonRect.Contains(pos);
+        return buttonRect.Contains(pos) && button.Active;
     }
 
     public override void Draw(SpriteBatch sprite, GameTime gameTime)

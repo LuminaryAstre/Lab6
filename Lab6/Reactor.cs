@@ -24,6 +24,7 @@ namespace Lab6;
 public class Reactor : Game
 {
     public static Reactor _instance;
+    public static Random Random = new Random();
     
     private static StarshipScene _activeScene;
     private static StarshipScene _nextScene;
@@ -106,6 +107,7 @@ public class Reactor : Game
     protected override void Initialize()
     {
         base.Initialize();
+        Persistinator.Setup();
         // DisplayMode dsp = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
         Rectangle dsp = new Rectangle(0, 0, 1280, 800);
         Graphics.PreferredBackBufferHeight = dsp.Height;

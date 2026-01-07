@@ -107,6 +107,7 @@ public class Waveinator : IDisposable
         {
             Engine?.Dispose();
             PlaybackDevice?.Dispose();
+            Player?.Stop();
             Player?.Dispose();
             Data?.Dispose();
         }

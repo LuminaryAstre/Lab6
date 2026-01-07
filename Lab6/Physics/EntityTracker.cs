@@ -34,6 +34,9 @@ public class EntityTracker(IEnumerable<PhysicsObject> objects)
             if (po.Destroyed) Objects.Remove(po);
             else po.Tick(gameTime);
         });
+        // TODO: Make this better.
+        //  Right now, I'm pretty sure
+        //  OnCollide is called twice on both objects.
         Objects.ForEach(po =>
         {
             Objects.ForEach(o =>
@@ -42,7 +45,6 @@ public class EntityTracker(IEnumerable<PhysicsObject> objects)
                 if (po.CheckCollision(o))
                 {
                     po.OnCollide(o);
-                    o.OnCollide(po);
                 }
             });
         });

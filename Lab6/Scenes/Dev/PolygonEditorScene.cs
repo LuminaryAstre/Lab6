@@ -1,3 +1,4 @@
+#if DEBUG
 using System;
 using System.Collections.Generic;
 using Lab6.Util;
@@ -104,3 +105,4 @@ public class PolygonEditorScene : StarshipScene
         base.Draw(sprite, gameTime);
     }
 }
+#endif

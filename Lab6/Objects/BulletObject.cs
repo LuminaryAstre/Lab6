@@ -1,3 +1,4 @@
+using System;
 using Lab6.Physics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,5 +25,13 @@ public class BulletObject : PhysicsObject
         }
         TicksUntilDeath -= 1;
         base.Tick(time);
+    }
+
+    public override void OnCollide(PhysicsObject other)
+    {
+        if (!(other is PlayerObject || other is BulletObject))
+        {
+            DeferDestroy();
+        }
     }
 }

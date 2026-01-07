@@ -48,7 +48,16 @@
         <DependentUpon>MenuWrapper.cs</DependentUpon>
       </Compile>
       <Compile Update="Scenes\Menu\OptionsScene.cs">
-        <DependentUpon>MenuWrapper.cs</DependentUpon>
+        <DependentUpon>MenuScene.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Scenes\Menu\GameOverScene.cs">
+        <DependentUpon>MenuScene.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Objects\CoinObject.cs">
+        <DependentUpon>PhysicsObject.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Scenes\Menu\ControlsList.cs">
+        <DependentUpon>MenuScene.cs</DependentUpon>
       </Compile>
     </ItemGroup>
     <PropertyGroup>

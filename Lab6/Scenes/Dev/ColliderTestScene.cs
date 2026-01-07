@@ -1,3 +1,4 @@
+#if DEBUG
 using System.Collections.Generic;
 using Lab6.Objects;
 using Lab6.Physics;
@@ -121,3 +122,4 @@ public class ColliderTestScene : StarshipScene
         base.Draw(sprite, gameTime);
     }
 }
+#endif

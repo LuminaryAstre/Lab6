@@ -39,7 +39,7 @@ public class PlayerObject : LivingObject
 
     public override void OnCollide(PhysicsObject other)
     {
-        if (other is BulletObject) return;
+        if (other is BulletObject || other is CoinObject) return;
         if (TimeSinceLastHit < 120) return;
         base.OnCollide(other);
     }

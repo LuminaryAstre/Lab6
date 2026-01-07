@@ -13,16 +13,25 @@ namespace Lab6.Scenes.Game;
 public class GameScene : StarshipScene
 {
     public EntityTracker Tracker = new();
-    public PlayerObject Player; 
+    public PlayerObject Player;
+    public CoinObject Coin;
     public int Score = 0;
+    public int HighScore;
+    public Waveinator Wave;
 
     public override void Start()
     {
+        Wave = new();
+        Wave.PlayFile("./Content/project_starship_ingame.ogg", TimeSpan.Zero);
+        
         Player = new PlayerObject("Player", Reactor.Textures.Ship, CommonColliderShapes.ShipCollider.ToCollisionMesh());
         Player.Center();
         Tracker.Track(Player);
+        Coin = new CoinObject("Coin", Reactor.Textures.Coin, CommonColliderShapes.CoinCollider.ToCollisionMesh());
+        Coin.Center();
+        Tracker.Track(Coin);
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < Reactor.Random.Next(4, 8); i++)
         {
             var obstacle = new LivingObject("Meteor", Reactor.Textures.Stone, new CircleCollisionMesh(25))
             {
@@ -38,6 +47,9 @@ public class GameScene : StarshipScene
             pos = pos * new Vector2(Reactor._instance.Width, Reactor._instance.Height);
             obstacle.Position = pos;
         }
+
+        HighScore = Persistinator.ReadInt("high_score");
+        
         base.Start();
     }
 
@@ -58,14 +70,27 @@ public class GameScene : StarshipScene
             }
         }
 
-        if (Player.Health == 0) Reactor._instance.SetActive(new MenuWrapper().SetActive(new MenuScene()));
+        if (Player.Health == 0) Reactor._instance.SetActive(new MenuWrapper().SetActive(new GameOverScene(Score)));
+        if (Score > HighScore)
+        {
+            Persistinator.WriteToFile("high_score", Score.ToString());
+            HighScore = Score;
+        }
         base.Update(gameTime);
+    }
+
+    public override void Stop()
+    {
+        Wave.Cease();
+        base.Stop();
     }
 
     public override void Draw(SpriteBatch sprite, GameTime gameTime)
     {
         Tracker.Draw(sprite);
         Reactor._instance.Text($"{Player.Health}/{Player.MaxHealth} HP");
+        Reactor._instance.Text($"{Score} Points");
+        Reactor._instance.Text($"{HighScore} High score");
         base.Draw(sprite, gameTime);
     }
 }

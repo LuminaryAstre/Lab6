@@ -1,3 +1,4 @@
+#if DEBUG
 using Lab6.Objects;
 using Lab6.Util;
 using Microsoft.Xna.Framework;
@@ -78,3 +79,4 @@ public class GeneralTestScene : StarshipScene
         base.Draw(sprite, gameTime);
     }
 }
+#endif

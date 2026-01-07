@@ -25,6 +25,7 @@ public class PhysicsObject(string name, Texture2D sprite, ICollisionMesh coll = 
     public float DeltaRotation = 0;
     public float Rotation = 0;
     public bool DeltaDecay = true;
+    public bool WillDestroy = false;
     public float DampingFactor = 0.02f;
     public EdgeInteractionType EdgeInteractionType = EdgeInteractionType.Wrap;
     public ICollisionMesh Collision = coll ?? new CollisionMesh(sprite.Bounds.ToPolygon());
@@ -53,6 +54,12 @@ public class PhysicsObject(string name, Texture2D sprite, ICollisionMesh coll = 
     {
         Destroyed = true;
     }
+
+    public virtual void DeferDestroy()
+    {
+        WillDestroy = true;
+    }
+
 
     protected virtual void TickMovement(Reactor game, GameTime time)
     {
@@ -129,6 +136,7 @@ public class PhysicsObject(string name, Texture2D sprite, ICollisionMesh coll = 
 
     public virtual void Tick(GameTime time)
     {
+        if (WillDestroy) Destroy();
         if (Destroyed) return;
         Reactor game = Reactor._instance;
         TickMovement(game, time);
